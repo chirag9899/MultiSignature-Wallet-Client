@@ -4,6 +4,7 @@ import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import { KeyboardArrowRightOutlined } from '@mui/icons-material';
 
 const TransactionQueue = () => {
+    
   return (
     <div className='basis-1/2 flex flex-col gap-4'>
         {/* text heading  */}

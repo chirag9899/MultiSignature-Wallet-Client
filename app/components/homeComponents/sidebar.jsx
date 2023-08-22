@@ -7,8 +7,10 @@ import { Avatar, Badge, Button } from '@nextui-org/react'
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'
 import { setActiveComponent } from '@/app/redux/feature/activeComponentSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'next/navigation';
+import { fetchProposals } from '@/app/redux/feature/fetchProposalsSlice'
+
 
 const Sidebar = () => {
     const pathName = usePathname()
@@ -16,7 +18,14 @@ const Sidebar = () => {
     const dispatch = useDispatch()
     const queryParams = useSearchParams()
 
-    console.log(queryParams.get("multi_sig"));
+    const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
+    const proposalsData = useSelector(state => state.fetchProposalsReducer?.proposalList);
+
+    const contract = queryParams.get("multi_sig");
+
+    console.log(proposalsData)
+
+    console.log(contract);
 
     return (
         <div className='basis-1/5 min-h-screen bg-white border-r-2 border-gray-300'>
@@ -34,7 +43,7 @@ const Sidebar = () => {
                     <div className='flex flex-col justify-start'>
                         <p className='text-xs'>Wallet Name</p>
 
-                        <p className='text-xs font-semibold'>base-osmo:<span className='font-normal'>{queryParams.get("multi_sig").slice(0, 6).concat("...")}</span></p>
+                        <p className='text-xs font-semibold'>base-osmo:<span className='font-normal'>{queryParams.get("multi_sig")?.slice(0, 6).concat("...")}</span></p>
                         <p className='text-xs font-semibold'>0.00 USD</p>
                     </div>
 
@@ -49,14 +58,20 @@ const Sidebar = () => {
 
             {/* lower div  */}
             <div className='flex flex-col gap-2 p-3 '>
-                <Link href={"/home"}>
-                    <div onClick={() => setActivePage("/home")} className={`flex items-center gap-4 ${activePage === "/home" && "bg-gray-100/80"}  hover:bg-green-200/50 rounded-lg p-3`}>
+                <Link href={`/home?multi_sig=${contract}`}>
+                    <div onClick={() => {
+                        setActivePage(`/home?multi_sig=${contract}`)
+                        dispatch(fetchProposals({ clientSigner, contract }))
+                    }} className={`flex items-center gap-4 ${activePage === `/home?multi_sig=${contract}` && "bg-gray-100/80"}  hover:bg-green-200/50 rounded-lg p-3`}>
                         <HomeOutlinedIcon />
                         <p className='font-semibold tracking-wider text-sm'>Home</p>
                     </div>
                 </Link>
-                <Link href={"/home/transactions"}>
-                    <div onClick={() => setActivePage("/home/transactions")} className={`flex items-center gap-4 ${activePage === "/home/transactions" && "bg-gray-100/80"}  hover:bg-green-200/50 rounded-lg p-3`}>
+                <Link href={`/home/transactions?multi_sig=${contract}`}>
+                    <div onClick={async () => {
+                        setActivePage(`/home/transactions?multi_sig=${contract}`);
+                        dispatch(fetchProposals({clientSigner, contract}))
+                    }} className={`flex items-center gap-4 ${activePage === `/home/transactions?multi_sig=${contract}` && "bg-gray-100/80"}  hover:bg-green-200/50 rounded-lg p-3`}>
                         <ImportExportIcon />
                         <p className='font-semibold tracking-wider text-sm'>Transactions</p>
                     </div>
