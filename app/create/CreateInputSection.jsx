@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import PersonIcon from '@mui/icons-material/Person';
 import ContactsIcon from '@mui/icons-material/Contacts';
@@ -6,7 +6,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const CreateInputSection = ({ state, setState }) => {
-    const [maxVotingPeriod, setMaxVotingPeriod] = useState('');
 
     console.log(state)
 
@@ -34,6 +33,19 @@ const CreateInputSection = ({ state, setState }) => {
         const {name, value} = event.target;
         setState(prev => ({ ...prev, [name]: Number(value) }))
     }
+    const[totalWeight,setTotalWeight] = useState();
+    
+
+    useEffect(() => {
+        const calculatedTotalWeight = state.owners.reduce((sum, curr) => {
+            if (curr.weight) {
+                return sum + Number(curr.weight);
+            }
+            return sum;
+        }, 0);
+        
+        setTotalWeight(calculatedTotalWeight); // Update total weight
+    }, [state.owners]);
 
     return (
         <div>
@@ -74,50 +86,16 @@ const CreateInputSection = ({ state, setState }) => {
                 <h3 className='font-semibold text-xl'>Threshold</h3>
                 <p className='text-sm'>Any transaction requires the confirmation of:</p>
 
-                <input type="number" placeholder='Enter the threshold' name='threshold' value={state?.threshold ?? ""} onChange={(e) => handleThresholdAndVote(e)} className='p-2 m-2 border outline-none' />
-                <span className='ml-2'>out of {state.owners.reduce((sum, curr) => {
-                    if (curr.weight ?? false) {
-                        return sum += Number(curr?.weight)
-                    }
-                    return sum
-                }, 0)} weight</span>
-                {/* <div className='mt-3'>
-                    <div className='flex justify-start items-center '>
-                        <div className='border min-w-14 min-h-14 p-2 rounded flex justify-center items-center'>
-                            <span className='text-xl ml-2'>{selectedThresholdCount}</span>
-                            <ArrowDropDownIcon onClick={() => setOwnerOption(!ownerOption)} />
-                        </div>
-                        <span className='ml-2'>out of {data.length} owner(s)</span>
-                    </div>
-                    {ownerOption && <div className='flex gap-4 p-4'>
-                        {
-                            data.map((_, index) => {
-                                return (
-                                    <div
-                                        className={`p-3 border hover:bg-green-200 ${index + 1 === selectedThresholdCount ? 'bg-green-200' : ''
-                                            }`}
-                                        onClick={() => {
-                                            setSelectedThresholdCount(index + 1);
-                                            setOwnerOption(false)
-                                        }}
-                                        key={index}
-                                    >
-                                        <span>{index + 1}</span>
-                                    </div>
-                                )
-                            })
-                        }
-                    </div>}
-                </div> */}
-
-
+                <input type="number" min="0" placeholder='Enter the threshold' name='threshold' value={state?.threshold.toString() ?? ""} onChange={(e) => handleThresholdAndVote(e)} className='p-2 m-2 border outline-none' />
+                <span className='ml-2 font-normal text-gray-800 hover:underline'>out of {totalWeight} weight</span>
+                
             </div>
 
-            <div className="border-t px-3 py-5 space-y-4">
+            <div className="border-t px-3 py-5 space-y-4 mb-8">
                 <h3 className='font-semibold text-xl'>Maximum Voting Period</h3>
                 <p className='text-sm font-normal'>Any transaction requires the confirmation of:</p>
-                <input type="number" placeholder='Enter max voting period ' className='p-2 m-2 border outline-none' value={state?.maxVotingPeriod ?? ""}
-                    name='maxVotingPeriod' onChange={(e) => handleThresholdAndVote(e)}  />
+                <input type="number" min="0"  placeholder='Enter max voting period ' className='p-2 m-2 border outline-none' value={state?.maxVotingPeriod.toString() ?? ""}
+                    name='maxVotingPeriod' onChange={(e) => handleThresholdAndVote(e)}/> <span className='ml-2 font-normal text-gray-800 hover:underline'> Enter In Days.</span>
             </div>
         </div>
     )

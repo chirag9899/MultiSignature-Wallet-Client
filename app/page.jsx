@@ -12,7 +12,7 @@ const Home = () => {
             <div className="basis-1/3 bg-white rounded-lg">
             <SidebarAccounts/>
             </div>
-            <div className="basis-2/3 bg-gradient-to-r from-blue-300 via-green-200 to-yellow-300 rounded-lg">
+            <div className="basis-2/3 bg-hero bg-no-repeat bg-cover bg-center rounded-lg shadow-lg">
                 <h1 className="text-4xl text-zinc-900 font-semibold text-center mt-2 mb-0">WELCOME TO MULTISIGN</h1>
                 <div className="flex justify-center gap-4 m-2 p-6">
                     <div className="bg-white w-120vh p-2 flex flex-col gap-4 rounded-lg">
@@ -20,7 +20,7 @@ const Home = () => {
                         <AddIcon className="text-6xl text-indigo-300 font-bold text-center" />
                         <h2 className="text-xl font-semibold text-center">Create Safe Account</h2>
                         <p className="text-xs text-gray-700 text-center">A new Account that is controlled by one or multiple owners.</p>
-                        <Link className="border-2 border-zinc-800 rounded-lg p-2 hover:bg-zinc-300 text-center" href="/create">Create button</Link>
+                        <Link className="border-2 border-zinc-300 rounded-lg p-2 hover:bg-zinc-200 text-center" href="/create">Create button</Link>
                     </div>
                 </div>
             </div>
