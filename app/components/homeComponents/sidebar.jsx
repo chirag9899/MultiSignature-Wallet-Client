@@ -17,6 +17,7 @@ const Sidebar = () => {
     const [activePage, setActivePage] = useState(pathName)
     const dispatch = useDispatch()
     const queryParams = useSearchParams()
+    console.log("i m in side bar")
 
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
     const proposalsData = useSelector(state => state.fetchProposalsReducer?.proposalList);
