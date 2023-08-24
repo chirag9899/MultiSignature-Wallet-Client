@@ -2,6 +2,7 @@ import React from 'react'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { connectWallet, disconnect } from "@/app/redux/feature/connect-wallet-slice"
 import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
 
 const Connectwallet = () => {
   const dispatch = useDispatch();
@@ -22,17 +23,18 @@ const Connectwallet = () => {
         <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Connect with one of our available wallet providers or create a new one.</p>
         <ul className="my-4 space-y-3">
           <li>
-            <a onClick={() => { console.log("hello world"); dispatch(connectWallet())}} href="#" className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow border">
+            <div onClick={() => { console.log("hello world"); dispatch(connectWallet())}} className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow border">
               <img src="https://assets-global.website-files.com/636e894daa9e99940a604aef/63bb99fc3d3d7a0f906e49ed_Keplr-logo.png" className='w-20' />
               {/* <span className="flex-1 ml-3 whitespace-nowrap">Kepl</span> */}
               <span className="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded ">Popular</span>
-            </a>
+            </div>
           </li>
         </ul>
         <div>
-          <a href="#" className="inline-flex items-center text-xs font-normal text-gray-500 hover:underline ">
+          <Link href="https://www.keplr.app/download" 
+            className="inline-flex items-center text-xs font-normal text-gray-500 hover:underline ">
             <HelpOutlineIcon className='w-3 h-3 mr-2' />
-            How to install Wallet? </a>
+            How to install Wallet? </Link>
         </div>
       </div>
       

@@ -29,5 +29,8 @@
     "styled-components": "^5.3.11",
     "tailwindcss": "3.3.3",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "tailwind-scrollbar": "^3.0.5"
   }
 }
