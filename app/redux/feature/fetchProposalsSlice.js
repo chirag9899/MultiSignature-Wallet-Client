@@ -12,7 +12,10 @@ export const fetchProposals = createAsyncThunk("fetchProposals", async (data) =>
         const proposalsData = await data?.clientSigner.queryContractSmart(
             data?.contract,
             {
-                list_proposals: {}
+                list_proposals: {
+                    start_after:undefined,
+                    limit:100
+                }
             }
         )
 
