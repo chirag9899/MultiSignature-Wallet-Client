@@ -20,7 +20,7 @@ const Home = () => {
                         <AddIcon className="text-6xl text-indigo-300 font-bold text-center" />
                         <h2 className="text-xl font-semibold text-center">Create Safe Account</h2>
                         <p className="text-xs text-gray-700 text-center">A new Account that is controlled by one or multiple owners.</p>
-                        <Link className="border-2 border-zinc-300 rounded-lg p-2 hover:bg-zinc-200 text-center" href="/create">Create button</Link>
+                        <Link className="border-2 border-zinc-300 rounded-lg p-2 hover:bg-zinc-200 text-center hover:transition ease-in duration-700" href="/create">Create button</Link>
                     </div>
                 </div>
             </div>

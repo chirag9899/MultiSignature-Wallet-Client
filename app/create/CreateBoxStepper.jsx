@@ -117,8 +117,9 @@ const CreateBoxStepper = () => {
                     owner_arr.push(owner_obj)
                 }
 
+                let transaction;
                 try {
-                    const transaction = await clientSigner.execute(
+                    transaction = await clientSigner.execute(
                         signer,
                         deployer_contract,
                         {

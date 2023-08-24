@@ -2,6 +2,7 @@ import React from 'react'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { connectWallet, disconnect } from "@/app/redux/feature/connect-wallet-slice"
 import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
 
 const Connectwallet = () => {
   const dispatch = useDispatch();
@@ -30,9 +31,10 @@ const Connectwallet = () => {
           </li>
         </ul>
         <div>
-          <a href="#" className="inline-flex items-center text-xs font-normal text-gray-500 hover:underline ">
+          <Link href="https://www.keplr.app/download" 
+            className="inline-flex items-center text-xs font-normal text-gray-500 hover:underline ">
             <HelpOutlineIcon className='w-3 h-3 mr-2' />
-            How to install Wallet? </a>
+            How to install Wallet? </Link>
         </div>
       </div>
       

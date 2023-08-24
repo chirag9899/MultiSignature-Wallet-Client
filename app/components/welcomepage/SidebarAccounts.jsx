@@ -81,7 +81,7 @@ const SidebarAccounts = () => {
                 
                 <div className="flex flex-col gap-1 w-full  h-[70vh] max-h-[80vh] overflow-auto scrollbar-thin scrollbar-rounded-* scrollbar-thumb-zinc-300">
                     {["", "", "", "", "", "", "", "", "", "", ""].map(() => (
-                        <Account name="sam" address="0xgavsdgavsgdvasgdv" />
+                        <Account name="sam" address={"0xgavsdgavsgdvasgdv"} />
                     ))}
                 </div>
             </div>
