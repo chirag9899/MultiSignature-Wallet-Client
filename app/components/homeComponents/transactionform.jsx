@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { setActiveComponent } from "@/app/redux/feature/activeComponentSlice"
 import { useSearchParams } from 'next/navigation';
 
-
 const Transactionform = () => {
     const dispatch = useDispatch()
     const queryParams = useSearchParams()
@@ -47,7 +46,7 @@ const Transactionform = () => {
                             bank: {
                                 send: {
                                     to_address: proposalData.address,
-                                    amount: [{ denom: "osmo", amount: proposalData.amount }]
+                                    amount: [{ denom: "uosmo", amount: proposalData.amount }]
                                 }
                             }
                         }],
