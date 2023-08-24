@@ -4,13 +4,14 @@ import { Button } from '@nextui-org/react'
 import TollIcon from '@mui/icons-material/Toll';
 import { useDispatch, useSelector } from "react-redux"
 import { setActiveComponent } from "@/app/redux/feature/activeComponentSlice"
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const Transactionform = () => {
     const dispatch = useDispatch()
     const queryParams = useSearchParams()
     console.log(queryParams)
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
+    const router=useRouter()
 
     console.log(clientSigner, signer)
 
@@ -55,8 +56,7 @@ const Transactionform = () => {
                 "auto"
             )
 
-
-
+            router.push(`/home/transactions?multi_sig=${queryParams.get('multi_sig')}`)
             console.log(createProposalTxn);
 
         } catch (error) {

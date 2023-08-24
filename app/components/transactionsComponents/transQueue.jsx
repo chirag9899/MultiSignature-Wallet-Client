@@ -1,12 +1,14 @@
 "use client";
 
+import { fetchProposals } from "@/app/redux/feature/fetchProposalsSlice";
 import { KeyboardArrowRightOutlined } from "@mui/icons-material";
 import { Accordion, AccordionItem, Button } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const User=({proposal})=>{
+
     return (
         <div className="text-black flex flex-row w-full items-center gap-8">
             <div className="flex flex-row justify-between w-full">
@@ -27,13 +29,17 @@ const TransQueue = () => {
     const proposalsData = useSelector(state => state.fetchProposalsReducer?.proposalList);
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
     const queryParams=useSearchParams()
-
-
+    const contract=queryParams.get('multi_sig')
+    const dispatch=useDispatch()
+    useEffect(()=>{
+        dispatch(fetchProposals({clientSigner,contract}))
+    },[proposalsData.length])
 
     const handleOpen=(id)=>{
         setOpen((prev)=>prev===false?true:false)
         setDivId(id)
     }
+
 
     const handleVote=async(id,voteDecision)=>{
         try {
@@ -94,14 +100,18 @@ const TransQueue = () => {
                                     {proposal.status==="open"?(
                                         <Button onClick={()=>handleVote(proposal.id,"yes")} className="bg-blue-600 text-white font-semibold tracking-wide" size="md" radius="md">Confirm</Button>
                                     ):(
-                                        <Button className="text-black font-semibold tracking-wide" disabled size="md" radius="md">Passed for Execution</Button>
+                                        <Button className="text-white font-semibold tracking-wide" disabled size="md" radius="md">Passed for Execution</Button>
                                     )}
                                     {proposal.status==="passed"?(
                                         <Button onClick={()=>handleExecuteProposal(proposal.id)} className="bg-green-600 text-white font-semibold tracking-wide" size="md" radius="md">Execute</Button>
                                     ):(
                                         <Button className="text-white font-semibold tracking-wide" disabled size="md" radius="md">Execute</Button>
                                     )}
-                                    <Button onClick={()=>handleVote(proposal.id,"no")} className="bg-red-600 text-white font-semibold tracking-wide" size="md" radius="md">Reject</Button>
+                                    {(proposal.status!=="passed" && proposal.status!=="executed")?(
+                                        <Button onClick={()=>handleVote(proposal.id,"no")} className="bg-red-600 text-white font-semibold tracking-wide" size="md" radius="md">Reject</Button>
+                                    ):(
+                                        <Button onClick={()=>handleVote(proposal.id,"no")} className="text-white font-semibold tracking-wide" size="md" radius="md">unable to reject</Button>
+                                    )}
                                 </div>
                             </div>
 
