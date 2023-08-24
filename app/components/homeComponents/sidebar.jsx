@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import TollIcon from '@mui/icons-material/Toll';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
@@ -10,6 +10,7 @@ import { setActiveComponent } from '@/app/redux/feature/activeComponentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'next/navigation';
 import { fetchProposals } from '@/app/redux/feature/fetchProposalsSlice'
+import { connectWallet } from '@/app/redux/feature/connect-wallet-slice';
 
 
 const Sidebar = () => {
@@ -21,12 +22,26 @@ const Sidebar = () => {
 
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
     const proposalsData = useSelector(state => state.fetchProposalsReducer?.proposalList);
-
     const contract = queryParams.get("multi_sig");
 
+    useEffect(() => {
+        
+        dispatch(connectWallet())
+        // if (clientSigner != "") {
+            
+        // }
+    }, [])
+    
+    const getBal = async () => {
+        const txn = await clientSigner.queryClient.bank.balance(
+            contract,
+            'uosmo'
+        )
+        console.log(txn)
+    }
     console.log(proposalsData)
 
-    console.log(contract);
+    console.log(clientSigner);
 
     return (
         <div className='basis-1/5 min-h-screen bg-white border-r-2 border-gray-300'>
@@ -45,7 +60,7 @@ const Sidebar = () => {
                         <p className='text-xs'>Wallet Name</p>
 
                         <p className='text-xs font-semibold'>base-osmo:<span className='font-normal'>{queryParams.get("multi_sig")?.slice(0, 6).concat("...")}</span></p>
-                        <p className='text-xs font-semibold'>0.00 USD</p>
+                        <p onClick={()=>getBal()} className='text-xs font-semibold'>0.00 USD</p>
                     </div>
 
                 </div>
@@ -71,7 +86,7 @@ const Sidebar = () => {
                 <Link href={`/home/transactions?multi_sig=${contract}`}>
                     <div onClick={async () => {
                         setActivePage(`/home/transactions?multi_sig=${contract}`);
-                        dispatch(fetchProposals({clientSigner, contract}))
+                        dispatch(fetchProposals({ clientSigner, contract }))
                     }} className={`flex items-center gap-4 ${activePage === `/home/transactions?multi_sig=${contract}` && "bg-gray-100/80"}  hover:bg-green-200/50 rounded-lg p-3`}>
                         <ImportExportIcon />
                         <p className='font-semibold tracking-wider text-sm'>Transactions</p>
