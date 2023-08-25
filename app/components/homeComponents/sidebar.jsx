@@ -22,7 +22,7 @@ const Sidebar = () => {
     const proposalsData = useSelector(state => state.fetchProposalsReducer?.proposalList);
     const contract = queryParams.get("multi_sig");
     const router=useRouter()
-    const walletData=JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item)=>item.walletAddress===`${contract}`)
+    const walletData= localStorage.key("name") === "/****user_wallet****/" ? JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item)=>item.walletAddress===`${contract}`) : [{walletName: "User"}]
 
 
     useEffect(() => {
