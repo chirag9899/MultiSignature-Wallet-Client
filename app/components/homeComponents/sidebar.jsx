@@ -21,18 +21,18 @@ const Sidebar = () => {
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
     const proposalsData = useSelector(state => state.fetchProposalsReducer?.proposalList);
     const contract = queryParams.get("multi_sig");
-    const router=useRouter()
-    const walletData= localStorage.key("name") === "/****user_wallet****/" ? JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item)=>item.walletAddress===`${contract}`) : [{walletName: "User"}]
+    const router = useRouter()
+    const walletData = localStorage.key("name") === "/****user_wallet****/" ? JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`) : [{ walletName: "User" }]
 
 
     useEffect(() => {
-        
+
         dispatch(connectWallet())
         // if (clientSigner != "") {
-            
+
         // }
     }, [])
-    
+
     const getBal = async () => {
         const txn = await clientSigner.queryClient.bank.balance(
             contract,
@@ -51,17 +51,16 @@ const Sidebar = () => {
                 <div className='flex flex-row gap-4 items-center'>
                     {/* Avatar Section  */}
                     <div>
-                        <Badge size='md' color='danger' content="3/3" shape='circle' className='text-black'>
-                            <Avatar name={`${walletData[0].walletName}`} size='lg' isBordered radius='full' />
 
-                        </Badge>
+                        <Avatar name={`${walletData[0].walletName}`} size='lg' isBordered radius='full' />
+
                     </div>
                     {/* Avatar Data  */}
                     <div className='flex flex-col justify-start gap-1'>
                         <p className='text-sm tracking-wider font-bold'>{walletData[0].walletName}</p>
 
                         <p className='text-xs font-semibold'>base-osmo:<span className='font-normal'>{queryParams.get("multi_sig")?.slice(0, 6).concat("...")}</span></p>
-                        <p onClick={()=>getBal()} className='text-xs font-semibold'>0.00 USD</p>
+                        <p onClick={() => getBal()} className='text-xs font-semibold'>0.00 USD</p>
                     </div>
 
                 </div>
@@ -72,7 +71,7 @@ const Sidebar = () => {
                     <Button size="md" radius='sm' className='w-full bg-black text-white font-semibold' onClick={() => {
                         router.push(`/home?multi_sig=${contract}`)
                         dispatch(setActiveComponent(2))
-                        }}>New Transaction</Button>
+                    }}>New Transaction</Button>
                 </div>
             </div>
 
