@@ -8,7 +8,6 @@ import { useRouter } from 'next/navigation';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { Avatar, CircularProgress, User } from '@nextui-org/react'
 import { Alert, AlertTitle } from '@mui/material';
-import { Spinner } from "@nextui-org/react";
 
 const steppers = [
     { id: 1, name: "Select network and name of your Safe Account", description: "Select the network on which to create your Safe Account" },
