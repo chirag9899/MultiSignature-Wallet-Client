@@ -6,8 +6,8 @@ import React from 'react'
 const Overview = () => {
     const queryParams = useSearchParams()
     const contract = queryParams.get("multi_sig")
-    const walletData = localStorage.key("name") === "/****user_wallet****/" ? JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`) : [{ walletName: "User" }]
-    console.log(walletData)
+    const walletData = (localStorage.key("name") === "/****user_wallet****/") ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)).length > 0 ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)) : ([{ walletName: "User" }]) : ([{ walletName: "User" }])
+    
     return (
         <div className='w-3/5 flex flex-col gap-4'>
             {/* text heading  */}
@@ -18,9 +18,9 @@ const Overview = () => {
             {/* overview content  */}
             <div className='bg-white p-7 rounded-md flex flex-col gap-6'>
                 <div>
-                    <Badge size='md' color='danger' content="3/3" shape='circle' className='text-black'>
+                    
                         <Avatar name={`${walletData[0].walletName}`} size='lg' isBordered radius='full' />
-                    </Badge>
+                    
                 </div>
 
                 <div className='flex flex-col gap-1'>

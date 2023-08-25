@@ -100,6 +100,7 @@ const CreateBoxStepper = () => {
         else if (stepperCount == 2) {
             console.log(userWalletData);
             console.log("Hello World")
+            setTxerror(false);
             setTransactionLoader(false);
             if (clientSigner && signer) {
                 console.log("transaction")
