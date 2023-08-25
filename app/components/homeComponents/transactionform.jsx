@@ -57,6 +57,7 @@ const Transactionform = () => {
             )
 
             router.push(`/home/transactions?multi_sig=${queryParams.get('multi_sig')}`)
+            dispatch(setActiveComponent(1))
             console.log(createProposalTxn);
 
         } catch (error) {

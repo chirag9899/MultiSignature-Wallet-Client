@@ -1,9 +1,13 @@
+"use client";
 import TransQueue from "@/app/components/transactionsComponents/transQueue"
-import { useSelector } from "react-redux";
+
 
 const Transactions = () => {
-  
+//  const [isProposalChanged,setIsProposalChanged]=useState(false)
 
+//  useEffect(()=>{
+//   fetchProp
+//  },[])
   return (
     <div className='py-10 px-6 flex flex-col gap-8 w-full'>
       <h1 className='text-3xl tracking-widest font-bold'>Transactions</h1>

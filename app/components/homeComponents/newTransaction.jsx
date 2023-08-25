@@ -9,9 +9,9 @@ const NewTransaction = () => {
   const dispatch = useDispatch()
   return (
     <div className=' m-8 p-12 flex flex-row gap-8 bg-white rounded-md w-full items-center justify-center'>
-        <div className='flex flex-col w-1/2 items-center justify-center h-full bg-gray-200/60 rounded-md'>
+        <div className='flex flex-col w-1/2 items-center justify-center  h-full bg-gray-200/60 rounded-md'>
             <ImportExportIcon className='text-8xl text-teal-800'/>
-            <p className='text-3xl font-semibold tracking-wider'>New Transaction</p>
+            <p className='text-2xl font-semibold tracking-wider p-4 text-center'>New Transaction</p>
         </div>
         <div className='flex flex-col w-1/2 items-center py-4 px-8 gap-4 h-full justify-center bg-gray-200/60 rounded-md'>
             <div className='flex flex-col  justify-center items-center   '>

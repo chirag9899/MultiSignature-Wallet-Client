@@ -1,10 +1,15 @@
 import { Avatar, Badge, Button } from '@nextui-org/react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import React from 'react'
 
 const Overview = () => {
+    const queryParams=useSearchParams()
+    const contract=queryParams.get("multi_sig")
+    const walletData=JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item)=>item.walletAddress===`${contract}`)
+    console.log(walletData)
   return (
-    <div className='basis-1/2 flex flex-col gap-4'>
+    <div className='w-3/5 flex flex-col gap-4'>
         {/* text heading  */}
         <div>
             <p className='text-md font-semibold'>Overview</p>
@@ -14,13 +19,13 @@ const Overview = () => {
         <div className='bg-white p-7 rounded-md flex flex-col gap-6'>
             <div>
                 <Badge size='md' color='danger' content="3/3" shape='circle' className='text-black'>
-                    <Avatar name='darab' size='lg' isBordered radius='full'/>             
+                    <Avatar name={`${walletData[0].walletName}`} size='lg' isBordered radius='full'/>             
                 </Badge>
             </div>
 
             <div className='flex flex-col gap-1'>
-                <p className='text-sm'>test1</p>
-                <p className='font-bold text-sm'>base-gor:<span className='font-normal'>0xkaggayu324k</span></p>
+                <p className='text-sm tracking-wider'>{walletData[0].walletName}</p>
+                <p className='w-full font-bold text-sm text-clip overflow-hidden'>MutiSign Contract Address: <br/><span className='font-normal '>{contract}</span></p>
             </div>
             <div className='flex flex-row items-center justify-between'>
                 <div className='flex flex-col'>
@@ -32,7 +37,7 @@ const Overview = () => {
                     <p className='text-3xl font-medium'>1</p>
                 </div>
                 
-                <Link href={"/home/assets"}>
+                <Link href={`/home/assets?multi_sig=${contract}`}>
                     <div>
                         <Button size="md" radius='sm' className='text-white font-semibold bg-black'>View Assets</Button>     
                     </div>

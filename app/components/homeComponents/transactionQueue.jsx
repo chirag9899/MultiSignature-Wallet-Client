@@ -3,20 +3,23 @@ import React from 'react'
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import { KeyboardArrowRightOutlined } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const TransactionQueue = () => {
     const proposalsData = useSelector(state => state.fetchProposalsReducer?.proposalList);
-    
+    const router=useRouter()
+    const queryParams=useSearchParams()
+    const contract=queryParams.get("multi_sig")
   return (
-    <div className='basis-1/2 flex flex-col gap-4'>
+    <div className='w-2/5 flex flex-col gap-4'>
         {/* text heading  */}
         <div>
             <p className='text-md font-semibold'>Transaction queue</p>
         </div>
         <div className='flex flex-col gap-2'>
-            {proposalsData.map((proposal)=>(
+            {proposalsData?.map((proposal)=>(
 
-                <div key={proposal.id} className='flex flex-row items-center justify-between bg-white rounded-md px-3 py-2'>
+                <div onClick={()=>router.push(`/home/transactions?multi_sig=${contract}`)} key={proposal.id} className=' cursor-pointer flex flex-row items-center justify-between bg-white rounded-md px-3 py-2'>
                     <div className='text-xs font-semibold'>{proposal.id}</div>
                     <div>
                         <p className='text-xs font-semibold'>{proposal.title}</p>

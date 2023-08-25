@@ -35,11 +35,11 @@ const Header = () => {
 
         {
             showbar &&
-            <div className="fixed top-0 left-0 w-full h-full backdrop-filter backdrop-blur-sm bg-black bg-opacity-50 z-40"></div>
+            <div className="fixed  top-0 left-0 w-full h-full backdrop-filter backdrop-blur-sm bg-black bg-opacity-50 z-40"></div>
         }
         <nav className='flex justify-row justify-between m-4 relative '>
             <Link className='text-2xl text-gray-700 font-bold' href="/">MultiSig</Link>
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-8 ">
 
 
                 

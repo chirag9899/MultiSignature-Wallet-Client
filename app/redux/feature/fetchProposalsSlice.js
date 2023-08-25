@@ -22,7 +22,7 @@ export const fetchProposals = createAsyncThunk("fetchProposals", async (data) =>
         console.log(proposalsData.proposals)
 
         return {
-            proposals: proposalsData.proposals
+            proposals: proposalsData?.proposals
         }
     } catch(error) {
         console.log(error)
@@ -36,7 +36,7 @@ const createFetchProposalsSlice = createSlice({
         builder.addCase(fetchProposals.fulfilled, (state, action) => {
             return {
                 ...state,
-                proposalList: action.payload.proposals
+                proposalList: action?.payload?.proposals.sort((a,b)=>b.id-a.id)
             }
         }),
         builder.addCase(fetchProposals.rejected, (state, action) => {

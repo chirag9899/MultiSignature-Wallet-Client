@@ -5,7 +5,7 @@ import TollIcon from '@mui/icons-material/Toll';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import { Avatar, Badge, Button } from '@nextui-org/react'
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { setActiveComponent } from '@/app/redux/feature/activeComponentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'next/navigation';
@@ -18,11 +18,12 @@ const Sidebar = () => {
     const [activePage, setActivePage] = useState(pathName)
     const dispatch = useDispatch()
     const queryParams = useSearchParams()
-    console.log("i m in side bar")
-
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
     const proposalsData = useSelector(state => state.fetchProposalsReducer?.proposalList);
     const contract = queryParams.get("multi_sig");
+    const router=useRouter()
+    const walletData=JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item)=>item.walletAddress===`${contract}`)
+
 
     useEffect(() => {
         
@@ -51,13 +52,13 @@ const Sidebar = () => {
                     {/* Avatar Section  */}
                     <div>
                         <Badge size='md' color='danger' content="3/3" shape='circle' className='text-black'>
-                            <Avatar name='darab' size='lg' isBordered radius='full' />
+                            <Avatar name={`${walletData[0].walletName}`} size='lg' isBordered radius='full' />
 
                         </Badge>
                     </div>
                     {/* Avatar Data  */}
-                    <div className='flex flex-col justify-start'>
-                        <p className='text-xs'>Wallet Name</p>
+                    <div className='flex flex-col justify-start gap-1'>
+                        <p className='text-sm tracking-wider font-bold'>{walletData[0].walletName}</p>
 
                         <p className='text-xs font-semibold'>base-osmo:<span className='font-normal'>{queryParams.get("multi_sig")?.slice(0, 6).concat("...")}</span></p>
                         <p onClick={()=>getBal()} className='text-xs font-semibold'>0.00 USD</p>
@@ -68,7 +69,10 @@ const Sidebar = () => {
 
                 {/* transaction button  */}
                 <div className='w-full'>
-                    <Button size="md" radius='sm' className='w-full bg-black text-white font-semibold' onClick={() => dispatch(setActiveComponent(2))}>New Transaction</Button>
+                    <Button size="md" radius='sm' className='w-full bg-black text-white font-semibold' onClick={() => {
+                        router.push(`/home?multi_sig=${contract}`)
+                        dispatch(setActiveComponent(2))
+                        }}>New Transaction</Button>
                 </div>
             </div>
 
@@ -92,8 +96,8 @@ const Sidebar = () => {
                         <p className='font-semibold tracking-wider text-sm'>Transactions</p>
                     </div>
                 </Link>
-                <Link href={"/home/assets"}>
-                    <div onClick={() => setActivePage("/home/assets")} className={`flex items-center gap-4 ${activePage === "/home/assets" && "bg-gray-100/80"}  hover:bg-green-200/50 rounded-lg p-3`}>
+                <Link href={`/home/assets?multi_sig=${contract}`}>
+                    <div onClick={() => setActivePage(`/home/assets?multi_sig=${contract}`)} className={`flex items-center gap-4 ${activePage === `/home/assets?multi_sig=${contract}` && "bg-gray-100/80"}  hover:bg-green-200/50 rounded-lg p-3`}>
                         <TollIcon />
                         <p className='font-semibold tracking-wider text-sm'>Assets</p>
                     </div>
