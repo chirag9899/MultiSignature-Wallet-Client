@@ -4,13 +4,17 @@ import Account from '@/app/components/welcomepage/Account'
 import { Button } from '@nextui-org/react'
 import { connectWallet, disconnect } from "@/app/redux/feature/connect-wallet-slice"
 import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link'
 import 'tailwind-scrollbar';
+
 
 
 const SidebarAccounts = () => {
     const dispatch = useDispatch();
     const userData = useSelector(state => state.connectWalletReducer);
     const [isConnecting, setIsConnecting] = useState(false);
+    const [wallets, setWallets] = useState([]);
+    const deployerContract = process.env.NEXT_PUBLIC_DEPLOYER_CONTRACT;
 
     const handleConnectWallet = () => {
         setIsConnecting(true);
@@ -24,18 +28,49 @@ const SidebarAccounts = () => {
             });
     };
     console.log(userData.signer)
-    
+
+
+
     useEffect(() => {
         // Dispatch an action to check user's wallet connection status
         dispatch(connectWallet())
+            // .then((item) => {
+            //     console.log(item.payload.user.clientSigner)
+            //     handleWallets(item.payload.user.clientSigner)
+            // })
             .catch(error => {
                 console.error("Error checking wallet connection:", error);
             });
     }, []);
 
+    useEffect(() => {
+        if (userData?.user?.clientSigner != "") {
+            handleWallets(userData?.user?.clientSigner)
+        }
+    }, [userData?.user?.clientSigner])
+
+    const handleWallets = async (clientSigner) => {
+        console.log(clientSigner)
+        try {
+            const queryWallets = await clientSigner?.queryContractSmart(
+                deployerContract,
+                {
+                    get_list_of_wallet: {
+                        user_address: userData?.user?.signer
+                    }
+                }
+            )
+            setWallets(queryWallets?.Ok.wallets);
+            console.log(queryWallets);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    console.log(wallets)
     if (!userData.user.signer) {
         return (
-            <div className='shadow-lg'> 
+            <div className='shadow-lg'>
                 <h2 className="text-xl font-semibold m-2 border-b border-zinc-200 p-4">My Accounts</h2>
                 <div className='px-16 py-20 space-y-6'>
                     <img src="https://assets-global.website-files.com/636e894daa9e99940a604aef/63bb99fc3d3d7a0f906e49ed_Keplr-logo.png" className=' mx-auto block w-32 ' />
@@ -78,14 +113,22 @@ const SidebarAccounts = () => {
                 <h2 className="text-xl text-center font-semibold m-2">My Accounts</h2>
                 <hr />
                 <div className="bg-black text-white m-4 text-center p-2 rounded-md">Archway</div>
-                
+
                 <div className="flex flex-col gap-1 w-full  h-[70vh] max-h-[80vh] overflow-auto scrollbar-thin scrollbar-rounded-* scrollbar-thumb-zinc-300">
-                    {["", "", "", "", "", "", "", "", "", "", ""].map(() => (
-                        <Account name="sam" address={"0xgavsdgavsgdvasgdv"} />
-                    ))}
+                    {wallets?.map((item) => {
+
+                        console.log(localStorage.key("name"));
+                        const localWallets = localStorage.key("name") == "/****user_wallet****/" ? JSON.parse(localStorage.getItem("/****user_wallet****/")).find(wallet => wallet.walletAddress === item) : null
+                        
+                        return (
+                            <Link key={item} href={`/home?multi_sig=${item}`}>
+                                <Account name={ localWallets?.walletName || "user"} address={item} />
+                            </Link>
+                        )
+                    })
+                    }
                 </div>
             </div>
-
         )
 
     }

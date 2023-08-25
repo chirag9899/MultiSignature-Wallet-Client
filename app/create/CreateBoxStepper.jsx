@@ -29,7 +29,7 @@ const CreateBoxStepper = () => {
     const [txerror, setTxerror] = useState(false);
 
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user);
-    const deployer_contract = "osmo167xy6uqcxjwke4xr3se8a32w957eaagy9eftnas8fju4xse4mspslcw6fk";
+    const deployer_contract = process.env.NEXT_PUBLIC_DEPLOYER_CONTRACT;
 
     const [userWalletData, setUserWalletData] = useState({
         walletName: "",
