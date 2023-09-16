@@ -1,0 +1,22 @@
+{
+  "testnet": {
+    "deployer": {
+      "code_id": 3503,
+      "addresses": {
+        "default": "osmo1435m0pfc30vpmxdfslv07krq6shlxnhh53pnsu5824kccf70s8wq35uk60"
+      },
+      "proposal": {
+        "store_code": null
+      }
+    },
+    "dapps": {
+      "code_id": 3372,
+      "addresses": {
+        "default": "osmo1r8eu76vs9etjw6p4j7j6fzanh30h2yf7pz8ynwerpd5ujs532krqsw9ljv"
+      },
+      "proposal": {
+        "store_code": null
+      }
+    }
+  }
+}

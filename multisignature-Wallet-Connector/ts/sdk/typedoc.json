@@ -1,0 +1,7 @@
+{
+  "out": "./docs",
+  "name": "multi-signature-wallet-connector",
+  "theme": "markdown",
+  "readme": "none",
+  "tsconfig": "./tsconfig.bundle.json"
+}
